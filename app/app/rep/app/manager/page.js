@@ -5,6 +5,12 @@ export default function ManagerDashboard() {
     "South Branch"
   ];
 
+  const agingRules = [
+    { label: "Fresh", range: "0–7 days", color: "#22c55e" },
+    { label: "Warming", range: "8–21 days", color: "#eab308" },
+    { label: "Cold", range: "22+ days", color: "#ef4444" }
+  ];
+
   return (
     <main
       style={{
@@ -19,20 +25,53 @@ export default function ManagerDashboard() {
       </h1>
 
       <p style={{ opacity: 0.8, marginBottom: "20px" }}>
-        Location activity overview
+        Territory freshness overview
       </p>
+
+      {/* TERRITORY AGING RULES */}
+      <section style={card}>
+        <h3 style={{ marginBottom: "12px" }}>Territory Aging Rules</h3>
+
+        {agingRules.map((rule) => (
+          <div
+            key={rule.label}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "8px"
+            }}
+          >
+            <span
+              style={{
+                width: "14px",
+                height: "14px",
+                borderRadius: "4px",
+                background: rule.color,
+                display: "inline-block",
+                marginRight: "10px"
+              }}
+            />
+            <span style={{ fontSize: "0.9rem" }}>
+              {rule.label} ({rule.range})
+            </span>
+          </div>
+        ))}
+      </section>
+
+      {/* LOCATIONS */}
+      <h3 style={{ margin: "20px 0 10px" }}>Locations</h3>
 
       {locations.map((loc) => (
         <section key={loc} style={card}>
-          <h3 style={{ marginBottom: "6px" }}>{loc}</h3>
-          <p style={{ fontSize: "0.9rem", opacity: 0.7 }}>
-            Activity logged by reps
+          <strong>{loc}</strong>
+          <p style={{ fontSize: "0.85rem", opacity: 0.7 }}>
+            Territory color based on last rep activity
           </p>
         </section>
       ))}
 
       <p style={{ marginTop: "24px", fontSize: "0.85rem", opacity: 0.6 }}>
-        Detailed stats and maps coming next.
+        Map view will reflect these rules.
       </p>
     </main>
   );
