@@ -1,4 +1,10 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
 export default function HomePage() {
+  const router = useRouter();
+
   return (
     <main
       style={{
@@ -23,6 +29,7 @@ export default function HomePage() {
 
       <div style={{ marginTop: "32px", width: "100%" }}>
         <button
+          onClick={() => router.push("/rep")}
           style={{
             width: "100%",
             padding: "14px",
@@ -39,6 +46,7 @@ export default function HomePage() {
         </button>
 
         <button
+          onClick={() => router.push("/manager")}
           style={{
             width: "100%",
             padding: "14px",
