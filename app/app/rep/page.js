@@ -10,7 +10,23 @@ export default function RepDashboard() {
     noAnswer: 0
   });
 
-  const logDoor = (type) => {
+  const confirmAndLog = (type) => {
+    // Enforce Walk rule
+    if (type === "walk" && counts.talk === 0) {
+      alert("You must log a Talk before logging a Walk.");
+      return;
+    }
+
+    const labelMap = {
+      knock: "Knock",
+      talk: "Talk",
+      walk: "Walk (Roof)",
+      noAnswer: "No Answer"
+    };
+
+    const confirmed = confirm(`Confirm ${labelMap[type]}?`);
+    if (!confirmed) return;
+
     setCounts((prev) => ({
       ...prev,
       [type]: prev[type] + 1
@@ -31,7 +47,7 @@ export default function RepDashboard() {
       </h1>
 
       <p style={{ opacity: 0.8, marginBottom: "16px" }}>
-        Manual door logging only
+        Manual door logging with confirmation
       </p>
 
       {/* COUNTERS */}
@@ -57,25 +73,25 @@ export default function RepDashboard() {
           gap: "12px"
         }}
       >
-        <button style={greenBtn} onClick={() => logDoor("knock")}>
+        <button style={greenBtn} onClick={() => confirmAndLog("knock")}>
           Knock
         </button>
 
-        <button style={greenBtn} onClick={() => logDoor("talk")}>
+        <button style={greenBtn} onClick={() => confirmAndLog("talk")}>
           Talk
         </button>
 
-        <button style={greenBtn} onClick={() => logDoor("walk")}>
+        <button style={greenBtn} onClick={() => confirmAndLog("walk")}>
           Walk (Roof)
         </button>
 
-        <button style={grayBtn} onClick={() => logDoor("noAnswer")}>
+        <button style={grayBtn} onClick={() => confirmAndLog("noAnswer")}>
           No Answer
         </button>
       </div>
 
       <p style={{ marginTop: "20px", fontSize: "0.85rem", opacity: 0.6 }}>
-        Walks represent walking a roof — not no-answers.
+        Walks require a Talk. All actions require confirmation.
       </p>
     </main>
   );
