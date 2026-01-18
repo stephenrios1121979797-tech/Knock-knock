@@ -1,4 +1,10 @@
 export default function ManagerDashboard() {
+  const locations = [
+    "Main Office",
+    "North Branch",
+    "South Branch"
+  ];
+
   return (
     <main
       style={{
@@ -12,24 +18,22 @@ export default function ManagerDashboard() {
         Manager Dashboard
       </h1>
 
-      <p style={{ opacity: 0.8, marginBottom: "24px" }}>
-        Team and territory overview.
+      <p style={{ opacity: 0.8, marginBottom: "20px" }}>
+        Location activity overview
       </p>
 
-      <section style={card}>
-        <h3>Active Locations</h3>
-        <p>Multiple locations supported</p>
-      </section>
+      {locations.map((loc) => (
+        <section key={loc} style={card}>
+          <h3 style={{ marginBottom: "6px" }}>{loc}</h3>
+          <p style={{ fontSize: "0.9rem", opacity: 0.7 }}>
+            Activity logged by reps
+          </p>
+        </section>
+      ))}
 
-      <section style={card}>
-        <h3>Rep Activity</h3>
-        <p>Manual door logs only</p>
-      </section>
-
-      <section style={card}>
-        <h3>Territory Status</h3>
-        <p>Color-coded by last visit</p>
-      </section>
+      <p style={{ marginTop: "24px", fontSize: "0.85rem", opacity: 0.6 }}>
+        Detailed stats and maps coming next.
+      </p>
     </main>
   );
 }
