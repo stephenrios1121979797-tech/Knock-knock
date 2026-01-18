@@ -1,4 +1,22 @@
+"use client";
+
+import { useState } from "react";
+
 export default function RepDashboard() {
+  const [counts, setCounts] = useState({
+    knock: 0,
+    talk: 0,
+    walk: 0,
+    noAnswer: 0
+  });
+
+  const logDoor = (type) => {
+    setCounts((prev) => ({
+      ...prev,
+      [type]: prev[type] + 1
+    }));
+  };
+
   return (
     <main
       style={{
@@ -12,10 +30,26 @@ export default function RepDashboard() {
         Rep Dashboard
       </h1>
 
-      <p style={{ opacity: 0.8, marginBottom: "24px" }}>
-        Log door activity manually.
+      <p style={{ opacity: 0.8, marginBottom: "16px" }}>
+        Manual door logging only
       </p>
 
+      {/* COUNTERS */}
+      <section
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "12px",
+          marginBottom: "24px"
+        }}
+      >
+        <Stat label="Knocks" value={counts.knock} />
+        <Stat label="Talks" value={counts.talk} />
+        <Stat label="Walks" value={counts.walk} />
+        <Stat label="No Answer" value={counts.noAnswer} />
+      </section>
+
+      {/* ACTION BUTTONS */}
       <div
         style={{
           display: "grid",
@@ -23,20 +57,48 @@ export default function RepDashboard() {
           gap: "12px"
         }}
       >
-        <button style={buttonStyle}>Knock</button>
-        <button style={buttonStyle}>Talk</button>
-        <button style={buttonStyle}>Walk</button>
-        <button style={buttonStyleAlt}>No Answer</button>
+        <button style={greenBtn} onClick={() => logDoor("knock")}>
+          Knock
+        </button>
+
+        <button style={greenBtn} onClick={() => logDoor("talk")}>
+          Talk
+        </button>
+
+        <button style={greenBtn} onClick={() => logDoor("walk")}>
+          Walk (Roof)
+        </button>
+
+        <button style={grayBtn} onClick={() => logDoor("noAnswer")}>
+          No Answer
+        </button>
       </div>
 
-      <p style={{ marginTop: "24px", fontSize: "0.9rem", opacity: 0.6 }}>
-        * Walk can only be logged after a Talk (enforced later)
+      <p style={{ marginTop: "20px", fontSize: "0.85rem", opacity: 0.6 }}>
+        Walks represent walking a roof — not no-answers.
       </p>
     </main>
   );
 }
 
-const buttonStyle = {
+function Stat({ label, value }) {
+  return (
+    <div
+      style={{
+        background: "#020617",
+        border: "1px solid #1e293b",
+        borderRadius: "12px",
+        padding: "14px",
+        textAlign: "center"
+      }}
+    >
+      <div style={{ fontSize: "1.4rem", fontWeight: "700" }}>{value}</div>
+      <div style={{ fontSize: "0.8rem", opacity: 0.7 }}>{label}</div>
+    </div>
+  );
+}
+
+const greenBtn = {
   padding: "18px",
   borderRadius: "12px",
   fontSize: "1rem",
@@ -46,8 +108,8 @@ const buttonStyle = {
   color: "#022c22"
 };
 
-const buttonStyleAlt = {
-  ...buttonStyle,
+const grayBtn = {
+  ...greenBtn,
   background: "#334155",
   color: "#f8fafc"
 };
