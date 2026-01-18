@@ -2,7 +2,14 @@
 
 import { useState } from "react";
 
+const LOCATIONS = [
+  "Main Office",
+  "North Branch",
+  "South Branch"
+];
+
 export default function RepDashboard() {
+  const [location, setLocation] = useState("");
   const [counts, setCounts] = useState({
     knock: 0,
     talk: 0,
@@ -11,7 +18,11 @@ export default function RepDashboard() {
   });
 
   const confirmAndLog = (type) => {
-    // Enforce Walk rule
+    if (!location) {
+      alert("Select a location before logging doors.");
+      return;
+    }
+
     if (type === "walk" && counts.talk === 0) {
       alert("You must log a Talk before logging a Walk.");
       return;
@@ -24,7 +35,7 @@ export default function RepDashboard() {
       noAnswer: "No Answer"
     };
 
-    const confirmed = confirm(`Confirm ${labelMap[type]}?`);
+    const confirmed = confirm(`Confirm ${labelMap[type]} at ${location}?`);
     if (!confirmed) return;
 
     setCounts((prev) => ({
@@ -46,9 +57,31 @@ export default function RepDashboard() {
         Rep Dashboard
       </h1>
 
-      <p style={{ opacity: 0.8, marginBottom: "16px" }}>
-        Manual door logging with confirmation
+      <p style={{ opacity: 0.8, marginBottom: "12px" }}>
+        Select your location before logging doors
       </p>
+
+      {/* LOCATION SELECT */}
+      <select
+        value={location}
+        onChange={(e) => setLocation(e.target.value)}
+        style={{
+          width: "100%",
+          padding: "12px",
+          borderRadius: "10px",
+          marginBottom: "20px",
+          background: "#020617",
+          color: "#f8fafc",
+          border: "1px solid #334155"
+        }}
+      >
+        <option value="">Select location…</option>
+        {LOCATIONS.map((loc) => (
+          <option key={loc} value={loc}>
+            {loc}
+          </option>
+        ))}
+      </select>
 
       {/* COUNTERS */}
       <section
@@ -91,7 +124,7 @@ export default function RepDashboard() {
       </div>
 
       <p style={{ marginTop: "20px", fontSize: "0.85rem", opacity: 0.6 }}>
-        Walks require a Talk. All actions require confirmation.
+        Location required. Walks require a Talk.
       </p>
     </main>
   );
